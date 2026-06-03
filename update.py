@@ -6,7 +6,7 @@ import sqlite3
 from lib.db import init_db, DB_PATH
 from lib.util import process_and_register_repository, remove_and_cleanup_repository
 # Import the new processing module functions
-from lib.processing import process_files_batch#, process_file
+from lib.processing import process_files_batch
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -27,15 +27,32 @@ def main() -> None:
         help="Git target clone endpoint URL to remove from database tracking."
     )
     
+    # New test flag implementation
+    parser.add_argument(
+        "--test",
+        action="store_true",
+        help="Run processing pipeline but only send test.txt to the server."
+    )
+    
     args = parser.parse_args()
     init_db()
 
     if args.add_repo:
         print(f"Initiating registration pipeline for: {args.add_repo}")
         
+        # The repo is processed normally here
         discovered_files = process_and_register_repository(args.add_repo)
         
         if discovered_files:
+            # Intercept and override the payload if the test flag is active
+            if args.test:
+                print("Test mode active: Bypassing standard payload and queueing test.txt.")
+                
+                # Note: If process_files_batch expects dictionaries instead of strings 
+                # (similar to the removal logic), this may need to be updated to:
+                # [{"repo_url": args.add_repo, "file_path": "test.txt", "status": "added"}]
+                discovered_files = ["test.txt"]
+                
             # Trigger the inline processing pipeline asynchronously
             asyncio.run(process_files_batch(discovered_files))
         else:

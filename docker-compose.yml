@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  repo-tracker:
+    build: .
+    container_name: repo_tracker_app
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persist the database and cloned repositories on the host machine
+      - tracker_data:/app
+    environment:
+      - LIGHTRAG_SERVER_URL=http://http://20.240.184.165:9621/
+      - AZURE_ENDPOINT=https://dave-alpha001-resource.services.ai.azure.com/
+      - DEPLOYMENT_NAME=gpt-4.1-1
+      - API_VERSION=2024-02-15-preview
+    restart: unless-stopped
+
+volumes:
+  tracker_data:

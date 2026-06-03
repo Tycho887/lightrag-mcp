@@ -1,14 +1,24 @@
-# Use a lightweight Nginx image
-FROM nginx:alpine
+# Use a lightweight official Python runtime
+FROM python:3.11-slim
 
-# Remove default Nginx static assets
-RUN rm -rf /usr/share/nginx/html/*
+# Install git since the utility uses it to clone and update repositories
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy your HTML and database to the Nginx serving directory
-COPY index.html /usr/share/nginx/html/
-COPY repo_sync_state.db /usr/share/nginx/html/
+# Set the working directory inside the container
+WORKDIR /app
 
-# Expose port 80 inside the container
-EXPOSE 80
+# Copy the requirements file if it exists, or install dependencies directly
+# (Using httpx, azure-identity, openai, python-dotenv based on application files)
+RUN pip install --no-cache-dir httpx azure-identity openai python-dotenv
 
-# Nginx starts automatically
+# Copy the core application files and library directory
+COPY tracker.py update.py index.html ./
+COPY lib/ ./lib/
+
+# Expose the internal tracking dashboard port
+EXPOSE 8080
+
+# Run the tracker daemon which boots both the HTTP server and the sync thread
+CMD ["python", "-u", "tracker.py"]

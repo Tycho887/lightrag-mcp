@@ -312,13 +312,13 @@
                         `;
                     }).join('');
 
-                    // UPDATE: Adjusted table headers and column widths to fit new data
+                    // UPDATE: Replaced 250px with 50vh for dynamic sizing
                     filesTableHtml = `
                         <div class="files-section">
                             <div class="files-title">Tracked Files Overview</div>
-                            <div style="max-height: 250px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px;">
+                            <div style="max-height: 50vh; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px;">
                                 <table class="files-table">
-                                    <thead>
+                                    <thead style="position: sticky; top: 0; z-index: 1;">
                                         <tr>
                                             <th style="width: 10%;">Type</th>
                                             <th style="width: 40%;">Path</th>
