@@ -10,10 +10,25 @@ services:
       # Persist the database and cloned repositories on the host machine
       - tracker_data:/app
     environment:
-      - LIGHTRAG_SERVER_URL=http://http://20.240.184.165:9621/
-      - AZURE_ENDPOINT=https://dave-alpha001-resource.services.ai.azure.com/
-      - DEPLOYMENT_NAME=gpt-4.1-1
-      - API_VERSION=2024-02-15-preview
+
+     - AZURE_ENV_NAME="models-playground-4817"
+     - AZURE_LOCATION="swedencentral"
+     - AZURE_SUBSCRIPTION_ID="ac8b4a35-7961-4430-b76b-c6712a6a6a92"
+     - AZURE_EXISTING_AIPROJECT_ENDPOINT="https://dave-alpha001-resource.openai.azure.com/openai/v1/"
+     - AZURE_EXISTING_AIPROJECT_RESOURCE_ID="/subscriptions/ac8b4a35-7961-4430-b76b-c6712a6a6a92/resourceGroups/rg-ai-test/providers/Microsoft.CognitiveServices/accounts/dave-alpha001-resource/projects/dave-alpha001"
+     - AZURE_EXISTING_RESOURCE_ID="/subscriptions/ac8b4a35-7961-4430-b76b-c6712a6a6a92/resourceGroups/rg-ai-test/providers/Microsoft.CognitiveServices/accounts/dave-alpha001-resource"
+     - AZD_ALLOW_NON_EMPTY_FOLDER=true
+
+    # LLM filtering
+
+     - AZURE_ENDPOINT = "https://dave-alpha001-resource.services.ai.azure.com/"
+     - DEPLOYMENT_NAME = "gpt-4.1-1"
+     - API_VERSION = "2024-02-15-preview" 
+
+    # LightRAG Server connection
+
+     - LIGHTRAG_SERVER_URL="http://20.240.184.165:9621"
+
     restart: unless-stopped
 
 volumes:
