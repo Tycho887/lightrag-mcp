@@ -1,0 +1,1 @@
+This is the initial text payload for testing the LightRAG add document functionality
