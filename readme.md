@@ -14,22 +14,6 @@ Queries require an intermediate LLM call to generate the graph query (utilizing 
 
 ---
 
-# Basics of LightRAG
-
-LightRAG is an open-source graph-vector database intended for agentic retrieval tasks. For this reason, it has built-in features for collecting cross-document features, such as linking dependencies between documents and understanding the structure of large batches of documents.
-
-For processing this, it requires a few steps:
-
-1. Cleaning and chunking the incoming text data.
-2. Utilizing specialized LLMs to extract entities, relationships, and build out the knowledge graph.
-3. Generating vector embeddings to store and retrieve the data.
-
-Queries require an intermediate LLM call to generate the graph query (utilizing GPT-5-mini without reasoning). The status of data ingestion, a simple query tool, and a visualizer for the graph are all available via the LightRAG frontend:
-
-* **Frontend Dashboard:** [http://20.240.184.16:9621](http://20.240.184.16:9621)
-
----
-
 # System Architecture & Synchronization
 
 The local ingestion ecosystem relies on two primary Python scripts interacting with a local SQLite database (`tracked_files`) and the remote LightRAG backend server.
